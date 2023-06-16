@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import UserSearch from "./componets/UserSearch";
+import Search from "./componets/Search";
 
-function App() {
+const theme = createTheme();
+
+const App = () => {
+  const [searchResult, setSearchResult] = useState<{ email: string; number: string }[]>([]);
+  const [error, setError] = useState("");
+
+  const handleSearch = async (email: string, number: string) => {
+    setError("");
+
+    try {
+      const response = await fetch("http://localhost:3001/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, number }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Search request failed");
+      }
+
+      const data = await response.json();
+      setSearchResult(data);
+    } catch (error) {
+      setError("An error occurred during the search.");
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <UserSearch onSearch={handleSearch} />
+      <Search searchResult={searchResult} error={error} />
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
