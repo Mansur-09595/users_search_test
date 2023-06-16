@@ -22,13 +22,13 @@ const App = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Search request failed");
+        throw new Error("Поисковый запрос не выполнен");
       }
 
       const data = await response.json();
       setSearchResult(data);
     } catch (error) {
-      setError("An error occurred during the search.");
+      setError("При поиске произошла ошибка.");
     }
   };
 

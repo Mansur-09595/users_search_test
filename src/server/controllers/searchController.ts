@@ -1,29 +1,28 @@
-// controllers/searchController.ts
-import { Request, Response } from 'express';
-import { SearchRequest } from '../models/types';
-import { users } from '../models/usersData';
+import { Request, Response } from "express";
+import { SearchRequest } from "../models/types";
+import { users } from "../models/usersData";
 
 let searchTimeout: NodeJS.Timeout | null = null;
 
 export const searchHandler = async (req: Request, res: Response) => {
   const { email, number }: SearchRequest = req.body;
 
-  // Validate email and number fields
+  // Проверка полей электронной почты и номера
   if (!email) {
-    return res.status(400).json({ error: 'Email is required' });
+    return res.status(400).json({ error: "Email is required" });
   }
 
   if (number && !/^\d{6}$/.test(number)) {
-    return res.status(400).json({ error: 'Number is invalid' });
+    return res.status(400).json({ error: "Number is invalid" });
   }
 
-  // Cancel previous search if exists
+  // Отменить предыдущий поиск, если он существует
   if (searchTimeout) {
     clearTimeout(searchTimeout);
   }
 
   try {
-    // Simulate a delay of 5 seconds for the search
+    // Имитировать задержку в 5 секунд для поиска
     await new Promise<void>((resolve) => {
       searchTimeout = setTimeout(resolve, 5000);
     });
@@ -42,6 +41,6 @@ export const searchHandler = async (req: Request, res: Response) => {
 
     res.json(filteredUsers);
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred during the search.' });
+    res.status(500).json({ error: "При поиске произошла ошибка." });
   }
 };

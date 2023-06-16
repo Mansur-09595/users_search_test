@@ -1,4 +1,3 @@
-// routes/searchRoutes.ts
 import { Router } from "express";
 import { searchHandler } from "../controllers/searchController";
 
