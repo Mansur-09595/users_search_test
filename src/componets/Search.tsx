@@ -9,6 +9,7 @@ interface SearchResult {
 interface SearchProps {
   searchResult: SearchResult[];
   error: string;
+  loading: boolean;
 }
 
 const Search: React.FC<SearchProps> = ({ searchResult, error }) => {
