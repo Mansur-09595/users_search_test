@@ -41,10 +41,10 @@ $ cd users_search_test && npm install
 
 ## Запуск сервера
 
-Перейти в папку src/server
+Перейти в папку /server
 
 ```bash
-$ cd src/server
+$ cd /server
 ```
 
 Запустить сервер с помощью команды:
